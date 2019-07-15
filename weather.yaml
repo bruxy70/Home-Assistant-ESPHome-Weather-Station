@@ -1,0 +1,49 @@
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api
+    mode: daily
+
+sensor:
+  - platform: template
+    sensors:
+      today_min:
+        value_template: "{{ state_attr('weather.dark_sky','forecast')[0].templow | default('0') }}"
+        friendly_name: Dnešní minimální teplota
+      today_max:
+        value_template: "{{ state_attr('weather.dark_sky','forecast')[0].temperature | default('0') }}"
+        friendly_name: Dnešní maximální teplota
+      today_srazky:
+        value_template: "{{ state_attr('weather.dark_sky','forecast')[0].precipitation | default('0') }}"
+        friendly_name: Dnešní srázky
+      today_icon:
+        value_template: >-
+          {% if state_attr("weather.dark_sky","forecast")[0].condition =='clear-night' %}
+            3
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='cloudy' %}
+            5
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='fog' %}
+            16
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='hail' %}
+            6
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='lightning' %}
+            13
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='lightning-rainy' %}
+            17
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='partlycloudy' %}
+            8
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='pouring' %}
+            18
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='rainy' %}
+            9
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='snowy' %}
+            11
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='snowy-rainy' %}
+            7
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='windy' %}
+            14
+          {% elif state_attr("weather.dark_sky","forecast")[0].condition =='windy-variant' %}
+            14
+          {% else %}
+            12
+          {% endif %}
+        friendly_name: Dnešní počasí

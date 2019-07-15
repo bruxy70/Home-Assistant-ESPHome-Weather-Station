@@ -1,0 +1,107 @@
+esphome:
+  name: display_teplomer
+  platform: ESP8266
+  board: d1_mini_pro
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+
+api:
+  password: !secret api_password
+
+ota:
+  password: !secret ota_password
+
+logger:
+  baud_rate: 0     # Disable UART logging (pins GPIO1/3 are used for Nextion communication)
+
+uart:
+  rx_pin: D1
+  tx_pin: D2
+  baud_rate: 9600
+
+time:
+  - platform: sntp
+    id: sntp_time
+
+sensor:
+  - platform: homeassistant   # Inside temperature
+    id: teplota_uvnitr
+    entity_id: sensor.teplota_uvnitr
+  - platform: homeassistant   # Outside temperature
+    id: teplota_venku         
+    entity_id: sensor.teplota_venku
+  - platform: homeassistant   # Swimming pool
+    id: teplota_bazen
+    entity_id: sensor.teplota_bazen
+  - platform: homeassistant   # Forecast minimal temperature
+    id: today_min
+    entity_id: sensor.today_min
+  - platform: homeassistant   # Forecast maximal temperature
+    id: today_max
+    entity_id: sensor.today_max
+  - platform: homeassistant   # Forecast precipitation
+    id: today_srazky
+    entity_id: sensor.today_srazky
+  - platform: homeassistant   # Forecast icon
+    id: today_icon
+    entity_id: sensor.today_icon
+
+text_sensor:
+  - platform: homeassistant   # Security Alarm Set/Unset
+    id: alarm
+    entity_id: sensor.alarm
+
+globals:
+ - id: first_page             # First page of the display?
+   type: bool
+   restore_value: no
+ - id: display_on             # Is display on?
+   type: bool
+   restore_value: no
+   
+display:
+  - platform: nextion
+    id: teplomer
+    update_interval: 5s
+    lambda: |-
+      // Turn display on when somebody is home (the alarm is unset). Only update when display on.
+      if (id(alarm).state == "Unset") {
+        if (!id(display_on)) {
+          it.set_backlight_brightness(50);
+          id(display_on)=true;
+        }
+        // Swich first/second page on each update (every 5 seconds)
+        if (id(first_page)) {
+          it.send_command_printf("%s.pic=%.0f", "pocasi",id(today_icon).state);
+          it.set_component_text_printf("minmax","%.0f/%.0f",id(today_min).state,id(today_max).state);
+          if (isnan(id(today_srazky).state)) {
+            it.set_component_text("srazky","-");
+          } else {
+            it.set_component_text_printf("srazky","%.0f",id(today_srazky).state);
+          }
+          auto time = id(sntp_time).now();
+          it.set_component_text_printf("hour","%02d",time.hour);
+          it.set_component_text_printf("minute","%02d",time.minute);
+          it.goto_page("predpoved");
+        } else {
+          it.set_component_text_printf("uvnitr","%2.1f",id(teplota_uvnitr).state);
+          it.set_component_text_printf("venku","%2.1f",id(teplota_venku).state);
+          it.set_component_text_printf("bazen","%2.1f",id(teplota_bazen).state);
+          it.goto_page("teplota");
+        }
+        id(first_page) = !id(first_page);  // Switch page
+      } else {
+        // Turn off the display if nobody is home (when the alarm is set). 
+        if (id(display_on)) {
+          it.set_backlight_brightness(0);
+          id(display_on)=false;
+        }
+      }
+
+# status_led:
+#   pin:
+#     number: D4
+#     inverted: True
