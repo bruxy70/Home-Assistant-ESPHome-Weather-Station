@@ -1,3 +1,6 @@
+# This is Home Assistant configuration. This goes into your configuration.yaml file (or packages folder if you have split your config)
+# you need to provide your API key
+
 weather:
   - platform: darksky
     api_key: !secret darksky_api
