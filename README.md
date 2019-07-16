@@ -31,6 +31,8 @@ The weather forecast uses a picture - I have loaded set of icons through the Nex
 it.send_command_printf("%s.pic=%.0f", "weather",id(today_icon).state);
 ```
 
+It is using the [2.4 inch Nextion display](https://www.banggood.com/Nextion-NX3224T024-2_4-Inch-Man-machine-Interface-HMI-Screen-Kernel-In-English-p-1105052.html?utm_campaign=19381694_november&utm_content=2635&p=@K220219381694201802&cur_warehouse=CN).
+
 ### Additional features
 
 There are two more "nice to have" features:
