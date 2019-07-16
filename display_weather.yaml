@@ -1,5 +1,5 @@
 esphome:
-  name: display_teplomer
+  name: display_weather
   platform: ESP8266
   board: d1_mini_pro
 
@@ -28,13 +28,13 @@ time:
 
 sensor:
   - platform: homeassistant   # Inside temperature
-    id: teplota_uvnitr
+    id: temperature_inside
     entity_id: sensor.teplota_uvnitr
   - platform: homeassistant   # Outside temperature
-    id: teplota_venku         
+    id: temperature_outside    
     entity_id: sensor.teplota_venku
   - platform: homeassistant   # Swimming pool
-    id: teplota_bazen
+    id: temperature_pool
     entity_id: sensor.teplota_bazen
   - platform: homeassistant   # Forecast minimal temperature
     id: today_min
@@ -43,16 +43,16 @@ sensor:
     id: today_max
     entity_id: sensor.today_max
   - platform: homeassistant   # Forecast precipitation
-    id: today_srazky
+    id: today_rain
     entity_id: sensor.today_srazky
   - platform: homeassistant   # Forecast icon
     id: today_icon
     entity_id: sensor.today_icon
 
-text_sensor:
-  - platform: homeassistant   # Security Alarm Set/Unset
-    id: alarm
-    entity_id: sensor.alarm
+binary_sensor:
+  - platform: homeassistant
+    id: somebody_home
+    entity_id: binary_sensor.somebody_home
 
 globals:
  - id: first_page             # First page of the display?
@@ -67,41 +67,36 @@ display:
     id: teplomer
     update_interval: 5s
     lambda: |-
-      // Turn display on when somebody is home (the alarm is unset). Only update when display on.
-      if (id(alarm).state == "Unset") {
+      // Turn display on when somebody is home. Only update when display on.
+      if (id(somebody_home).state) {
         if (!id(display_on)) {
           it.set_backlight_brightness(50);
           id(display_on)=true;
         }
         // Swich first/second page on each update (every 5 seconds)
         if (id(first_page)) {
-          it.send_command_printf("%s.pic=%.0f", "pocasi",id(today_icon).state);
+          it.send_command_printf("%s.pic=%.0f", "weather",id(today_icon).state);
           it.set_component_text_printf("minmax","%.0f/%.0f",id(today_min).state,id(today_max).state);
-          if (isnan(id(today_srazky).state)) {
-            it.set_component_text("srazky","-");
+          if (isnan(id(today_rain).state)) {
+            it.set_component_text("rain","-");
           } else {
-            it.set_component_text_printf("srazky","%.0f",id(today_srazky).state);
+            it.set_component_text_printf("rain","%.0f",id(today_rain).state);
           }
           auto time = id(sntp_time).now();
           it.set_component_text_printf("hour","%02d",time.hour);
           it.set_component_text_printf("minute","%02d",time.minute);
-          it.goto_page("predpoved");
+          it.goto_page("forecast");
         } else {
-          it.set_component_text_printf("uvnitr","%2.1f",id(teplota_uvnitr).state);
-          it.set_component_text_printf("venku","%2.1f",id(teplota_venku).state);
-          it.set_component_text_printf("bazen","%2.1f",id(teplota_bazen).state);
-          it.goto_page("teplota");
+          it.set_component_text_printf("inside","%2.1f",id(temperature_inside).state);
+          it.set_component_text_printf("outside","%2.1f",id(temperature_outside).state);
+          it.set_component_text_printf("pool","%2.1f",id(temperature_pool).state);
+          it.goto_page("temperature");
         }
         id(first_page) = !id(first_page);  // Switch page
       } else {
-        // Turn off the display if nobody is home (when the alarm is set). 
+        // Turn off the display if nobody is home. 
         if (id(display_on)) {
           it.set_backlight_brightness(0);
           id(display_on)=false;
         }
       }
-
-# status_led:
-#   pin:
-#     number: D4
-#     inverted: True
