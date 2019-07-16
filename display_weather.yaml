@@ -1,3 +1,4 @@
+# This is ESPHome configuration file. This goes to the esphome folder
 esphome:
   name: display_weather
   platform: ESP8266
