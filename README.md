@@ -1,5 +1,5 @@
 # Home-Assistant-ESPHome-Weather-Station
-Nextion display with ESP8266 microcontroller (Wemos D1 mini) showing Home Assistant temperature sensors (temperature inside, outside and in the swiming pool - but you can put as many sensors as you wish) and weather forecast from the internet (but again, you display any Hassio sensors, so if you wish to create own weather forecase, you can do that).
+Nextion display with ESP8266 microcontroller (Wemos D1 mini) showing Home Assistant temperature sensors (temperature inside, outside and in the swiming pool) and weather forecast from the internet. But you might display any Hassio sensors, so if you wish to create own weather forecase, you can do that.
 
 ![Temperatures](/images/1.temperature.jpg "Page 1 - temperature sensors")  ![Forecast](/images/2.forecast.jpg "Page 2 - weather forecast")
 
@@ -7,7 +7,7 @@ Nextion display with ESP8266 microcontroller (Wemos D1 mini) showing Home Assist
 
 ### Architecture
 
-The Nextion display is connected via 4 wires: GND, +5V, RX and TX. So to control the display is extremely easy - just connect these 4 wires to the corresponsing ports in any Arduino board and you are set. In thsi project I am using Wemos D1 mini. But in some other projects I have the display connected to Sonoff 4ch or even Sonoff Basic (the only challenge with these is to find the pin with 5V, but this is not that hard).
+The Nextion display is connected via 4 wires: GND, +5V, RX and TX. So to control the display is extremely easy - just connect these 4 wires to the corresponsing ports in any Arduino board and you are set. In this project I am using Wemos D1 mini. But in some other projects I have the display connected to Sonoff 4ch or even Sonoff Basic (the only challenge with these is to find the pin with 5V, but this is not that hard).
 
 ### Design
 
