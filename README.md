@@ -28,7 +28,7 @@ sensor:
 
 The weather forecast uses a picture - I have loaded set of icons through the NextionEditor, so all I do us to change the picture id this way:
 ```
-it.send_command_printf("%s.pic=%.0f", "pocasi",id(today_icon).state);
+it.send_command_printf("%s.pic=%.0f", "weather",id(today_icon).state);
 ```
 
 ### Additional features
