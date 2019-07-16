@@ -29,13 +29,13 @@ time:
 sensor:
   - platform: homeassistant   # Inside temperature
     id: temperature_inside
-    entity_id: sensor.teplota_uvnitr
+    entity_id: sensor.temperature_inside
   - platform: homeassistant   # Outside temperature
     id: temperature_outside    
-    entity_id: sensor.teplota_venku
+    entity_id: sensor.temperature_outside
   - platform: homeassistant   # Swimming pool
     id: temperature_pool
-    entity_id: sensor.teplota_bazen
+    entity_id: sensor.temperature_pool
   - platform: homeassistant   # Forecast minimal temperature
     id: today_min
     entity_id: sensor.today_min
@@ -44,7 +44,7 @@ sensor:
     entity_id: sensor.today_max
   - platform: homeassistant   # Forecast precipitation
     id: today_rain
-    entity_id: sensor.today_srazky
+    entity_id: sensor.today_rain
   - platform: homeassistant   # Forecast icon
     id: today_icon
     entity_id: sensor.today_icon

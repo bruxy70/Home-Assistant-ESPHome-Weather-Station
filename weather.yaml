@@ -8,13 +8,13 @@ sensor:
     sensors:
       today_min:
         value_template: "{{ state_attr('weather.dark_sky','forecast')[0].templow | default('0') }}"
-        friendly_name: Dnešní minimální teplota
+        friendly_name: Today's maximal temperature
       today_max:
         value_template: "{{ state_attr('weather.dark_sky','forecast')[0].temperature | default('0') }}"
-        friendly_name: Dnešní maximální teplota
-      today_srazky:
+        friendly_name: Today's minimal temperature
+      today_rain:
         value_template: "{{ state_attr('weather.dark_sky','forecast')[0].precipitation | default('0') }}"
-        friendly_name: Dnešní srázky
+        friendly_name: Today's rain forecast
       today_icon:
         value_template: >-
           {% if state_attr("weather.dark_sky","forecast")[0].condition =='clear-night' %}
@@ -46,4 +46,4 @@ sensor:
           {% else %}
             12
           {% endif %}
-        friendly_name: Dnešní počasí
+        friendly_name: Today weather forecast
