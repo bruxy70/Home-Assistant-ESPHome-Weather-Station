@@ -40,11 +40,11 @@ There are two more "nice to have" features:
 
 ### Source files
 
-- display_weather.yaml - this is the main file - the actual ESPHome configuration
-- display.HMI - this is the actual design of the display I use - the file can be edited via the NextionEditor (can be [downloaded](https://nextion.itead.cc/resources/download/nextion-editor/) from ITEAD pages)
-- weather.yaml - Home Assistant configuration of the weather sensors I use. You can obviously use any sensors or any other weather service you like. Additionally, I have 3 temperature sensors - one of them is Z-Wave temperature sensor (internal). The other sensors are created through ESPHome. I also have luminosity sensor and rain sensor (but I do not show these, they are used in various automations). It is really up to you what information you find useful to show.
-- folder images - I have included the source images for the Nextion display editor. These are not essential for the project, but if you want to create own design, you can start from there.
-- 3D model front.stl, 3D model back.stl - 3D model of the box the display is mounted in (Wemos D1 mini fits in the back).
+- **display_weather.yaml** - this is the main file - the actual ESPHome configuration
+- **display.HMI** - this is the actual design of the display I use - the file can be edited via the NextionEditor (can be [downloaded](https://nextion.itead.cc/resources/download/nextion-editor/) from ITEAD pages)
+- **weather.yaml** - Home Assistant configuration of the weather sensors I use. You can obviously use any sensors or any other weather service you like. Additionally, I have 3 temperature sensors - one of them is Z-Wave temperature sensor (internal). The other sensors are created through ESPHome. I also have luminosity sensor and rain sensor (but I do not show these, they are used in various automations). It is really up to you what information you find useful to show.
+- **images (folder)** - I have included the source images for the Nextion display editor. These are not essential for the project, but if you want to create own design, you can start from there.
+- **3D model front.stl, 3D model back.stl** - 3D model of the box the display is mounted in (Wemos D1 mini fits in the back).
 
 ## Author
 
