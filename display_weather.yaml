@@ -77,6 +77,7 @@ display:
         }
         // Swich first/second page on each update (every 5 seconds)
         if (id(first_page)) {
+          it.goto_page("forecast");
           it.send_command_printf("%s.pic=%.0f", "weather",id(today_icon).state);
           it.set_component_text_printf("minmax","%.0f/%.0f",id(today_min).state,id(today_max).state);
           if (isnan(id(today_rain).state)) {
@@ -87,12 +88,11 @@ display:
           auto time = id(sntp_time).now();
           it.set_component_text_printf("hour","%02d",time.hour);
           it.set_component_text_printf("minute","%02d",time.minute);
-          it.goto_page("forecast");
         } else {
+          it.goto_page("temperature");
           it.set_component_text_printf("inside","%2.1f",id(temperature_inside).state);
           it.set_component_text_printf("outside","%2.1f",id(temperature_outside).state);
           it.set_component_text_printf("pool","%2.1f",id(temperature_pool).state);
-          it.goto_page("temperature");
         }
         id(first_page) = !id(first_page);  // Switch page
       } else {
