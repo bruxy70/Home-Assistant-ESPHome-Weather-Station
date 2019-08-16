@@ -29,6 +29,9 @@ time:
     id: sntp_time
 
 sensor:
+  - platform: homeassistant
+    id: sun_elevation
+    entity_id: sensor.sun_elevation
   - platform: homeassistant   # Inside temperature
     id: temperature_inside
     entity_id: sensor.temperature_inside
@@ -60,20 +63,28 @@ globals:
  - id: first_page             # First page of the display?
    type: bool
    restore_value: no
- - id: display_on             # Is display on?
-   type: bool
+ - id: current_brightness             # Is display on?
+   type: int
    restore_value: no
+   initial_value: '-1'
    
 display:
   - platform: nextion
     id: teplomer
     update_interval: 5s
     lambda: |-
+      // Do not wait for ack (this delays the whole procedure a lot, and has no use)
+      it.set_wait_for_ack(false);
+      
       // Turn display on when somebody is home. Only update when display on.
-      if (id(somebody_home).state) {
-        if (!id(display_on)) {
-          it.set_backlight_brightness(50);
-          id(display_on)=true;
+      int br;
+      if (id(somebody_home).state) {   
+        if (id(sun_elevation)>0) {
+          // Full brightness during the day
+          br=100;    
+        } else {
+          // 50 percent at night
+          br=50;
         }
         // Swich first/second page on each update (every 5 seconds)
         if (id(first_page)) {
@@ -97,8 +108,11 @@ display:
         id(first_page) = !id(first_page);  // Switch page
       } else {
         // Turn off the display if nobody is home. 
-        if (id(display_on)) {
-          it.set_backlight_brightness(0);
-          id(display_on)=false;
-        }
+        br=0;
+      }
+      
+      // Change brightnes if it needs to be changed
+      if (!id(current_brightness)!=br) {  
+        it.set_backlight_brightness(br);
+        id(current_brightness)=br;
       }
