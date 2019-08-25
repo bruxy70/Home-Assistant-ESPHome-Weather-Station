@@ -112,7 +112,7 @@ display:
       }
       
       // Change brightnes if it needs to be changed
-      if (!id(current_brightness)!=br) {  
+      if (id(current_brightness)!=br) {  
         it.set_backlight_brightness(br);
         id(current_brightness)=br;
       }
