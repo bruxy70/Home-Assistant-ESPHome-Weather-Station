@@ -79,7 +79,7 @@ display:
       // Turn display on when somebody is home. Only update when display on.
       int br;
       if (id(somebody_home).state) {   
-        if (id(sun_elevation)>0) {
+        if (id(sun_elevation).state > 0) {
           // Full brightness during the day
           br=100;    
         } else {
