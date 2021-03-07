@@ -1,7 +1,9 @@
 # Home-Assistant-ESPHome-Weather-Station
-Nextion display with ESP8266 microcontroller (Wemos D1 mini) showing Home Assistant temperature sensors (temperature inside, outside and in the swiming pool) and weather forecast from the internet. But you might display any Hassio sensors, so if you wish to create own weather forecase, you can do that.
+Nextion display with ESP8266 microcontroller (Wemos D1 mini) showing Home Assistant temperature sensors (temperature inside, outside and in the swiming pool) and weather forecast from the internet. But you might display any Hassio sensors, so if you wish to create own weather forecast, you can do that.
 
 ![Temperatures](/images/1.temperature.jpg "Page 1 - temperature sensors")  ![Forecast](/images/2.forecast.jpg "Page 2 - weather forecast")
+
+[![Buy me a coffee](https://img.shields.io/static/v1.svg?label=Buy%20me%20a%20coffee&message=🥨&color=black&logo=buy%20me%20a%20coffee&logoColor=white&labelColor=6f4e37)](https://www.buymeacoffee.com/3nXx0bJDP)
 
 ## Getting Started
 
