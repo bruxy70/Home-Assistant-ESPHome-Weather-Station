@@ -33,6 +33,12 @@ The weather forecast uses a picture - I have loaded set of icons through the Nex
 it.send_command_printf("%s.pic=%.0f", "weather",id(today_icon).state);
 ```
 
+For the ESPHome to communicate, the HMI also needs to be configured not to send responses on the commands. It is also a good idea to increase the port speed. To do that, in the Nextion Editor, in the `Program.s` tab, add these two commands before the `page` line.
+```
+baud=115200
+bkcmd=0
+```
+
 It is using the [2.4 inch Nextion display](https://www.banggood.com/Nextion-NX3224T024-2_4-Inch-Man-machine-Interface-HMI-Screen-Kernel-In-English-p-1105052.html?utm_campaign=19381694_november&utm_content=2635&p=@K220219381694201802&cur_warehouse=CN).
 
 ### Additional features
