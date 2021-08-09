@@ -22,7 +22,7 @@ logger:
 uart:
   rx_pin: D1
   tx_pin: D2
-  baud_rate: 9600
+  baud_rate: 115200
 
 time:
   - platform: sntp
@@ -64,27 +64,24 @@ globals:
    type: bool
    restore_value: no
  - id: current_brightness             # Is display on?
-   type: int
+   type: float
    restore_value: no
-   initial_value: '-1'
+   initial_value: '-1.0'
    
 display:
   - platform: nextion
     id: teplomer
     update_interval: 5s
-    lambda: |-
-      // Do not wait for ack (this delays the whole procedure a lot, and has no use)
-      it.set_wait_for_ack(false);
-      
+    lambda: |-      
       // Turn display on when somebody is home. Only update when display on.
-      int br;
+      float br;
       if (id(somebody_home).state) {   
         if (id(sun_elevation).state > 0) {
           // Full brightness during the day
-          br=100;    
+          br=1.0;    
         } else {
           // 50 percent at night
-          br=50;
+          br=0.5;
         }
         // Swich first/second page on each update (every 5 seconds)
         if (id(first_page)) {
@@ -108,7 +105,7 @@ display:
         id(first_page) = !id(first_page);  // Switch page
       } else {
         // Turn off the display if nobody is home. 
-        br=0;
+        br=0.0;
       }
       
       // Change brightnes if it needs to be changed
